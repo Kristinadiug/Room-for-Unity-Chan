@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Users";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>All Users</title>
+</head>
+<body>
+    <div>
+        <h3>Sellers</h3>
+        <table>
+            <tr>
+                <td><p>Name</p></td>
+                <td><p>Age</p></td>
+                <td><p>Password</p></td>
+
+            </tr>
+            @foreach (var b in ViewBag.Sellers)
+            {
+                <tr>
+                    <td><p>@b.Name</p></td>
+                    <td><p>@b.Age</p></td>
+                    <td><p>@b.Password</p></td>
+
+                </tr>
+            }
+        </table>
+    </div>
+    <div>
+        <h3>Buyers</h3>
+        <table>
+            <tr>
+                <td><p>Name</p></td>
+                <td><p>Age</p></td>
+                <td><p>Password</p></td>
+
+            </tr>
+            @foreach (var b in ViewBag.Buyers)
+            {
+                <tr>
+                    <td><p>@b.Name</p></td>
+                    <td><p>@b.Age</p></td>
+                    <td><p>@b.Password</p></td>
+
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
+

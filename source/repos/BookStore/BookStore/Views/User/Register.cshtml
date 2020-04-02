@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registration</title>
+</head>
+<body>
+    <div>
+        <h3>Registration Form</h3>
+        <form method="post" action="">
+            <input type="hidden" value="@ViewBag.BookId" name="Id" />
+            <table>
+                <tr>
+                    <td><p>Enter your name </p></td>
+                    <td><input type="text" name="Name" /> </td>
+                </tr>
+                <tr>
+                    <td><p>Enter your age :</p></td>
+                    <td>
+                        <input type="text" name="Age" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Enter your password :</p></td>
+                    <td>
+                        <input type="password" name="Password" />
+                    </td>
+                </tr>
+                <tr><td><input type="submit" formaction="RegisterSeller" value="Regiater as Seller" /> </td><td></td></tr>
+                <tr><td><input type="submit" formaction="RegisterBuyer" value="Regiater as Buyer" /> </td><td></td></tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+

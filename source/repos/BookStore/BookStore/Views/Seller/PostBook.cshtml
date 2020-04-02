@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewData["Title"] = "PostBook";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registration</title>
+</head>
+<body>
+    <div>
+        <h3>Registration Form</h3>
+        <form method="post" action="">
+            <input type="hidden" value="@ViewBag.BookId" name="Id" />
+            <table>
+                <tr>
+                    <td><p>Enter title </p></td>
+                    <td><input type="text" name="Title" /> </td>
+                </tr>
+                <tr>
+                    <td><p>Enter author :</p></td>
+                    <td>
+                        <input type="text" name="Author" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Enter price :</p></td>
+                    <td>
+                        <input type="text" name="Price" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Image :</p></td>
+                    <td>
+                        <input type="file" name="Image" accept="image/*">
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Description :</p></td>
+                    <td>
+                        <input type="text" name="Description" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Quantity :</p></td>
+                    <td>
+                        <input type="text" name="Availability" />
+                    </td>
+                </tr>
+                <tr><td><input type="submit" value="Post" /> </td><td></td></tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
