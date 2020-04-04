@@ -42,9 +42,9 @@
               "target": "Package",
               "version": "[6.4.0, )"
             },
-            "Microsoft.AspNet.WebPages": {
+            "Microsoft.AspNetCore.WebUtilities": {
               "target": "Package",
-              "version": "[3.2.7, )"
+              "version": "[2.2.0, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
@@ -53,6 +53,14 @@
             "System-Web-Helpers.dll": {
               "target": "Package",
               "version": "[1.0.0, )"
+            },
+            "System.Net.Http": {
+              "target": "Package",
+              "version": "[4.3.4, )"
+            },
+            "System.Web.Helpers.Crypto": {
+              "target": "Package",
+              "version": "[3.2.3, )"
             }
           },
           "imports": [

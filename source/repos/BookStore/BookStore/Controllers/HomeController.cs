@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BookStore.Models;
+using Shop.Data.Models;
 
 namespace BookStore.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private BookContext _context = new BookContext();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -25,6 +27,13 @@ namespace BookStore.Controllers
 
         public IActionResult Privacy()
         {
+            return View();
+        }
+
+        public ActionResult AllBooks()
+        {
+            IEnumerable<Book> books = _context.Books;
+            ViewBag.Books = books;
             return View();
         }
 

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Shop.Data.Models
 {
@@ -10,8 +12,9 @@ namespace Shop.Data.Models
         public int Id { get; set; }
         public int SellerId { get; set; }
         public virtual Seller Seller { get; set; }
-        public ushort Price { get; set; }
-        public string Image { get; set; }
+        public int Price { get; set; }
+        public IFormFile ImageData { get; set; }
+        public string ImageUrl { get; set; }
         public string Description { get; set; }
         public int Availability{ get; set; }
         public int Popularity{ get; set; }

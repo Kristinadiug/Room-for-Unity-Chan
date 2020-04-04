@@ -12,8 +12,8 @@
 <body>
     <div>
         <h3>Registration Form</h3>
-        <form method="post" action="">
-            <input type="hidden" value="@ViewBag.BookId" name="Id" />
+        <form asp-action="Create" asp-controller="Seller" method="post" enctype="multipart/form-data">
+            
             <table>
                 <tr>
                     <td><p>Enter title </p></td>
@@ -34,7 +34,7 @@
                 <tr>
                     <td><p>Image :</p></td>
                     <td>
-                        <input type="file" name="Image" accept="image/*">
+                        <input type="file" name="ImageData">
                     </td>
                 </tr>
                 <tr>

@@ -37,7 +37,6 @@ namespace BookStore.Controllers
         }
         public ActionResult Users()
         {
-            IEnumerable<Users> users = db.Users;
             ViewBag.Buyers = db.Buyers;
             ViewBag.Sellers = db.Sellers;
             return View();
