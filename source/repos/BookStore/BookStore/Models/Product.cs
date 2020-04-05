@@ -11,7 +11,7 @@ namespace Shop.Data.Models
     {
         public int Id { get; set; }
         public int SellerId { get; set; }
-        public virtual Seller Seller { get; set; }
+        public virtual User Seller { get; set; }
         public int Price { get; set; }
         public IFormFile ImageData { get; set; }
         public string ImageUrl { get; set; }
