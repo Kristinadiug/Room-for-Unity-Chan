@@ -24,7 +24,8 @@ namespace BookStore.Controllers
         [HttpPost]
         public string Register(User user)
         {
-            user.Password = Convert.ToString(user.Password.GetHashCode());
+            user.Password = Crypto.HashPassword(user.Password);
+            user.PasswordConfirm = user.Password;
             db.Users.Add(user);
             db.SaveChanges();
             return "Welcome!";
@@ -46,22 +47,25 @@ namespace BookStore.Controllers
         public string Login(User model)
         {
             User user = null;
-            string output;
+
             using (BookContext context = new BookContext())
             {
                 string username = model.Name;
-                string password = Convert.ToString(model.Password.GetHashCode());
-                user = context.Users.FirstOrDefault(u => u.Name == username && u.Password == password);
-                output = username + '\n' + password;
+                user = context.Users.FirstOrDefault(u => u.Name == username );
+              
             }
             if (user != null)
             {
+                if(!Crypto.VerifyHashedPassword(user.Password, model.Password))
+                {
+                    return "Wrong password";
+                }
                 Response.Cookies.Append("Id", Convert.ToString(user.Id));
                 return "Welcome ";
             }
             else
             {
-                return "No Seller with this username and password\n" + output;
+                return "No user with this username and password\n";
             }
         }
 
@@ -88,7 +92,7 @@ namespace BookStore.Controllers
             return View();
         }
         [HttpPost]
-        public string Create(Book book)
+        public string PostBook(Book book)
         {
             string res = "Book was added ";
 
@@ -118,6 +122,21 @@ namespace BookStore.Controllers
             IEnumerable<Book> books = db.Books.Where(u => u.SellerId == CurUserId); ;
             ViewBag.Books = books;
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int bookId)
+        {
+            if (Request.Cookies["Id"] == null)
+                LocalRedirect("~/User/Login");
+            int seller_id = Convert.ToInt32(Request.Cookies["Id"]);
+            Book book = db.Books.FirstOrDefault(u => u.Id == bookId);
+            if(book == null)
+            {
+                LocalRedirect("~/User/MyBooks");
+            }
+
+            return View(book);
         }
     }
 

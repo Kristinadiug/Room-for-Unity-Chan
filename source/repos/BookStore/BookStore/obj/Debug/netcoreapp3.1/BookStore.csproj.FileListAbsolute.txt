@@ -122,7 +122,6 @@ C:\Users\christina\source\repos\BookStore\BookStore\bin\Debug\netcoreapp3.1\ru\M
 C:\Users\christina\source\repos\BookStore\BookStore\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\christina\source\repos\BookStore\BookStore\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\christina\source\repos\BookStore\BookStore\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Register.cshtml.g.cs
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Users.cshtml.g.cs
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.MigrateDB.resources
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.csproj.GenerateResource.cache
@@ -138,8 +137,13 @@ C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Book
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Login.cshtml.g.cs
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Home\AllBooks.cshtml.g.cs
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.bookproduct.resources
-C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.user.resources
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.fkp.resources
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\MyBooks.cshtml.g.cs
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\PostBook.cshtml.g.cs
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Register.cshtml.g.cs
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.email.resources
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Edit.cshtml.g.cs
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.fk.resources
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.f.resources

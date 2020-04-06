@@ -1,49 +1,63 @@
-﻿
+﻿@model Shop.Data.Models.User
+
 @{
     ViewData["Title"] = "Register";
+
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Registration</title>
-</head>
-<body>
-    <div>
-        <h3>Registration Form</h3>
-        <form method="post" action="">
-           
-            <table>
-                <tr>
-                    <td><p>Enter your name </p></td>
-                    <td><input type="text" name="Name" /> </td>
-                </tr>
-                <tr>
-                    <td><p>Enter your age :</p></td>
-                    <td>
-                        <input type="text" name="Age" />
-                    </td>
-                </tr>
-                <tr>
-                    <td><p>Enter your password :</p></td>
-                    <td>
-                        <input type="password" name="Password" />
-                    </td>
-                </tr>
-                <tr>
-                    <td><p>Enter your password :</p></td>
-                    <td>
-                        <select name="Role">
+<h1>Register</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" type="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PasswordConfirm" class="control-label"></label>
+                <input asp-for="PasswordConfirm" type="password" class="form-control" />
+                <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Role" class="control-label"></label>
+                <select asp-for="Role" class="form-control">
                             <option value="Seller">Seller</option>
                             <option value="Buyer">Buyer</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr><td><input type="submit" value="Regiater" /> </td><td></td></tr>
-            </table>
+                </select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
         </form>
     </div>
-</body>
-</html>
+</div>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
