@@ -147,3 +147,5 @@ C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Book
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Edit.cshtml.g.cs
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.fk.resources
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.f.resources
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Message.cshtml.g.cs
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Delete.cshtml.g.cs

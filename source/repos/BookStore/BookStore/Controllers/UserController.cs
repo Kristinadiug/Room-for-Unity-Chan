@@ -17,6 +17,12 @@ namespace BookStore.Controllers
     {
         BookContext db = new BookContext();
      
+        public ActionResult Message(string s)
+        {
+            ViewBag.massage = s;
+            return View();
+        }
+
         [HttpGet]
         public ActionResult Register()
         {
@@ -168,6 +174,28 @@ namespace BookStore.Controllers
             db.SaveChanges();
             return RedirectToAction("MyBooks");
                      
+        }
+        [HttpGet]
+        public IActionResult Delete(int Id)
+        {
+            ViewBag.Id = Id;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult DeleteSure(int Id)
+        {
+            Book book = null;
+            book = db.Books.FirstOrDefault(u => u.Id == Id);
+            if(book == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                db.Entry(book).State = System.Data.Entity.EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("MyBooks");
+            }
         }
     }
 
