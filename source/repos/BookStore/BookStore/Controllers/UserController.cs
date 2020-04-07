@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 
+
 namespace BookStore.Controllers
 {
     
@@ -61,6 +62,7 @@ namespace BookStore.Controllers
                     return "Wrong password";
                 }
                 Response.Cookies.Append("Id", Convert.ToString(user.Id));
+                Response.Cookies.Append("Role", user.Role);
                 return "Welcome ";
             }
             else
@@ -125,18 +127,47 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int bookId)
+        public ActionResult Edit(int Id)
         {
             if (Request.Cookies["Id"] == null)
-                LocalRedirect("~/User/Login");
-            int seller_id = Convert.ToInt32(Request.Cookies["Id"]);
-            Book book = db.Books.FirstOrDefault(u => u.Id == bookId);
+                return LocalRedirect("~/User/Login");
+          
+            var book = db.Books.FirstOrDefault(u => u.Id == Id);
+            
             if(book == null)
             {
-                LocalRedirect("~/User/MyBooks");
+                return LocalRedirect("~/User/MyBooks");
             }
+            else
+            {
+                ViewBag.Model = book;
+                return View();
+            }
+            
+        }
 
-            return View(book);
+        [HttpPost]
+        public ActionResult Edit(Book book)
+        {
+            int Id = book.Id;
+            Book oldData = db.Books.FirstOrDefault(u => u.Id == Id);
+            book.SellerId = oldData.SellerId;
+            book.ImageUrl = oldData.ImageUrl;
+            if (book.ImageData != null)
+            {
+                byte[] imageData = null;
+
+                using (var binaryReader = new BinaryReader(book.ImageData.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)book.ImageData.Length);
+                }
+                book.ImageUrl = "data:image;base64," + Convert.ToBase64String(imageData);
+            }
+            db.Entry(oldData).State = System.Data.Entity.EntityState.Deleted;
+            db.Entry(book).State = System.Data.Entity.EntityState.Added;
+            db.SaveChanges();
+            return RedirectToAction("MyBooks");
+                     
         }
     }
 

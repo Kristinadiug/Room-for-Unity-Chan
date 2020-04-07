@@ -22,6 +22,7 @@ namespace BookStore.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Books = _context.Books;
             return View();
         }
 

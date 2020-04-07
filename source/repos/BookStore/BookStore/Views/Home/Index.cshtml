@@ -1,8 +1,21 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "All Books";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>All Books</h1>
+<div class="row mt-5 mb-2">
+    @{ 
+        foreach(var b in ViewBag.Books)
+        {
+            <div class="col-lg-4" >
+                <img src=@b.ImageUrl width="150" height="200" style="align-self:center" class="m-5">
+                <h3>@b.Title</h3>
+                <h4>@b.Author</h4>
+                <div style="height: 150px">
+                    <p>@b.Description</p>
+                </div>
+                <p>Price: @b.Price.ToString("c")</p>
+                <p><a class="btn btn-secondary" href="#">Buy</a></p>
+            </div>
+        }
+    }
 </div>
