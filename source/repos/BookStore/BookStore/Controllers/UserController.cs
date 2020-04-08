@@ -19,7 +19,7 @@ namespace BookStore.Controllers
      
         public ActionResult Message(string s)
         {
-            ViewBag.massage = s;
+            ViewBag.message = s;
             return View();
         }
 
@@ -29,13 +29,14 @@ namespace BookStore.Controllers
             return View();
         }
         [HttpPost]
-        public string Register(User user)
+        public IActionResult Register(User user)
         {
             user.Password = Crypto.HashPassword(user.Password);
             user.PasswordConfirm = user.Password;
             db.Users.Add(user);
             db.SaveChanges();
-            return "Welcome!";
+            return RedirectToAction("Message", new { s = "Welcome!" });
+
         }
         
         public ActionResult Users()
@@ -51,7 +52,7 @@ namespace BookStore.Controllers
         }
 
         [HttpPost]
-        public string Login(User model)
+        public IActionResult Login(User model)
         {
             User user = null;
 
@@ -65,16 +66,23 @@ namespace BookStore.Controllers
             {
                 if(!Crypto.VerifyHashedPassword(user.Password, model.Password))
                 {
-                    return "Wrong password";
+                    return RedirectToAction("Message", new { s = "Wrong password" });
                 }
                 Response.Cookies.Append("Id", Convert.ToString(user.Id));
                 Response.Cookies.Append("Role", user.Role);
-                return "Welcome ";
+                return RedirectToAction("Message", new { s = "Welcome!" });
             }
             else
             {
-                return "No user with this username and password\n";
+   
+                return RedirectToAction("Message", new { s = "No user with this username and password" });
             }
+        }
+
+        public IActionResult LogOut()
+        {
+            Response.Cookies.Delete("Id"); ;
+            return RedirectToAction("Message", new { s = "Success" });
         }
 
         public string GetInfo()
@@ -97,10 +105,24 @@ namespace BookStore.Controllers
         [HttpGet]
         public ActionResult PostBook()
         {
-            return View();
+            if(Request.Cookies["Id"] == null)
+            {
+                return LocalRedirect("~/User/Login");
+            }
+            int Id = Convert.ToInt32(Request.Cookies["Id"]);
+            User user = db.Users.FirstOrDefault(u => u.Id == Id);
+            if(user == null || user.Role != "Seller")
+            {
+                return RedirectToAction("Message", new { s = "You are not a seller" });
+            }
+            else
+            {
+                return View();
+            }
+            
         }
         [HttpPost]
-        public string PostBook(Book book)
+        public IActionResult PostBook(Book book)
         {
             string res = "Book was added ";
 
@@ -120,14 +142,23 @@ namespace BookStore.Controllers
 
             db.Books.Add(book);
             db.SaveChanges();
-            return res;
+            return RedirectToAction("Message", new { s = "Book was added" });
         }
 
         [HttpGet]
         public ActionResult MyBooks()
         {
-            int CurUserId = Convert.ToInt32(Request.Cookies["Id"]);
-            IEnumerable<Book> books = db.Books.Where(u => u.SellerId == CurUserId); ;
+            if (Request.Cookies["Id"] == null)
+            {
+                return LocalRedirect("~/User/Login");
+            }
+            int Id = Convert.ToInt32(Request.Cookies["Id"]);
+            User user = db.Users.FirstOrDefault(u => u.Id == Id);
+            if (user == null || user.Role != "Seller")
+            {
+                return RedirectToAction("Message", new { s = "You are not a seller" });
+            }
+            IEnumerable<Book> books = db.Books.Where(u => u.SellerId == Id); ;
             ViewBag.Books = books;
             return View();
         }
@@ -136,16 +167,30 @@ namespace BookStore.Controllers
         public ActionResult Edit(int Id)
         {
             if (Request.Cookies["Id"] == null)
+            {
+                return LocalRedirect("~/User/Login");
+            }
+            int userId = Convert.ToInt32(Request.Cookies["Id"]);
+            User user = db.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null || user.Role != "Seller")
+            {
+                return RedirectToAction("Message", new { s = "You are not a seller" });
+            }
+            if (Request.Cookies["Id"] == null)
                 return LocalRedirect("~/User/Login");
           
             var book = db.Books.FirstOrDefault(u => u.Id == Id);
             
             if(book == null)
             {
-                return LocalRedirect("~/User/MyBooks");
+                return RedirectToAction("Message", new { s = "Not found" });
             }
             else
             {
+                if(book.SellerId != userId)
+                {
+                    return RedirectToAction("Message", new { s = "You have no rights for this book" });
+                }
                 ViewBag.Model = book;
                 return View();
             }
