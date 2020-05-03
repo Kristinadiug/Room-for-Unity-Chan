@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security;
 using System.Threading.Tasks;
 
-namespace Shop.Data.Models
+namespace BookStore.Data.Models
 {
     public class User
     {
@@ -27,5 +28,7 @@ namespace Shop.Data.Models
         public string PasswordConfirm { set; get; }
       
         public String Role { set; get; }
+        [DefaultValue(false)]
+        public bool Blocked { set; get; }
     }
 }

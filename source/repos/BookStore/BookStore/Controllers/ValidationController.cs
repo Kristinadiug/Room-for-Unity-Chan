@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Data.Models;
+using BookStore.Data.Models;
 
 namespace BookStore.Controllers
 {

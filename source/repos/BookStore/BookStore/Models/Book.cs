@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Shop.Data.Models
+namespace BookStore.Data.Models
 {
     public class Book: Products
     {

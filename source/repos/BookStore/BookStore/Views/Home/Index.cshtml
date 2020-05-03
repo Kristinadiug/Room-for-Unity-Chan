@@ -1,12 +1,33 @@
-﻿@{
+﻿@model IEnumerable<BookStore.Data.Models.Book>
+@{
     ViewData["Title"] = "All Books";
 }
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <h1>All Books</h1>
+<div class="list-group-horizontal m-1">
+    <p>Sort by</p>
+    <i class="fa fa-fw fa-sort"></i><a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Title)</a>
+    <i class="fa fa-fw fa-sort"></i><a asp-action="Index" asp-route-sortOrder="@ViewData["AuthorSortParm"]">@Html.DisplayNameFor(model => model.Author)</a>
+    <i class="fa fa-fw fa-sort"></i><a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]">@Html.DisplayNameFor(model => model.Price)</a>
+
+    
+</div>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-outline-info btn-sm" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
 <div class="row mt-5 mb-2">
-    @{ 
-        foreach(var b in ViewBag.Books)
+    @{
+        foreach (var b in Model)
         {
-            <div class="col-lg-4" >
+            <div class="col-lg-4">
                 <img src=@b.ImageUrl width="150" height="200" style="align-self:center" class="m-5">
                 <h3>@b.Title</h3>
                 <h4>@b.Author</h4>

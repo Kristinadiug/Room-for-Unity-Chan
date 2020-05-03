@@ -1,7 +1,7 @@
 ﻿using BookStore.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Data.Models;
+using BookStore.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -68,8 +68,12 @@ namespace BookStore.Controllers
                 {
                     return RedirectToAction("Message", new { s = "Wrong password" });
                 }
+                if(user.Blocked)
+                {
+                    return RedirectToAction("Message", new { s = "Your account is blocked" });
+                }
                 Response.Cookies.Append("Id", Convert.ToString(user.Id));
-                Response.Cookies.Append("Role", user.Role);
+                ViewBag.Role = "1";
                 return RedirectToAction("Message", new { s = "Welcome!" });
             }
             else
@@ -226,7 +230,7 @@ namespace BookStore.Controllers
             ViewBag.Id = Id;
             return View();
         }
-        [HttpPost]
+       
         public IActionResult DeleteSure(int Id)
         {
             Book book = null;
@@ -240,6 +244,29 @@ namespace BookStore.Controllers
                 db.Entry(book).State = System.Data.Entity.EntityState.Deleted;
                 db.SaveChanges();
                 return RedirectToAction("MyBooks");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Block(int Id)
+        {
+            ViewBag.Id = Id;
+            return View();
+        }
+
+        public IActionResult BlockSure(int Id)
+        {
+            User user = null;
+            user = db.Users.FirstOrDefault(u => u.Id == Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                user.Blocked = true;
+                db.SaveChanges();
+                return RedirectToAction("Message", new { s = "User was blocked" });
             }
         }
     }
