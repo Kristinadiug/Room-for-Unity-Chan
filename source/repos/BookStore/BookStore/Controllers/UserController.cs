@@ -73,7 +73,7 @@ namespace BookStore.Controllers
                     return RedirectToAction("Message", new { s = "Your account is blocked" });
                 }
                 Response.Cookies.Append("Id", Convert.ToString(user.Id));
-                ViewBag.Role = "1";
+                Response.Cookies.Append("Role", user.Role);
                 return RedirectToAction("Message", new { s = "Welcome!" });
             }
             else
@@ -85,7 +85,8 @@ namespace BookStore.Controllers
 
         public IActionResult LogOut()
         {
-            Response.Cookies.Delete("Id"); ;
+            Response.Cookies.Delete("Id");
+            Response.Cookies.Delete("Role");
             return RedirectToAction("Message", new { s = "Success" });
         }
 
@@ -104,6 +105,27 @@ namespace BookStore.Controllers
                 res = "Current user id is " + curId;
             }
             return res;
+        }
+
+        public IActionResult Profile(int Id)
+        {
+            User user = db.Users.FirstOrDefault(u => u.Id == Id);
+            if(user == null)
+            {
+                return RedirectToAction("Message", new { s = "Not found" });
+            }
+            ViewBag.user = user;
+            return View();
+        }
+
+        public IActionResult Me()
+        {
+            if (Request.Cookies["Id"] == null)
+            {
+                return LocalRedirect("~/User/Login");
+            }
+            int Id = Convert.ToInt32(Request.Cookies["Id"]);
+            return RedirectToAction("Profile", new { Id = Id });
         }
 
         [HttpGet]
@@ -264,10 +286,43 @@ namespace BookStore.Controllers
             }
             else
             {
-                user.Blocked = true;
+                user.Blocked = !user.Blocked;
                 db.SaveChanges();
-                return RedirectToAction("Message", new { s = "User was blocked" });
+                if(user.Blocked) return RedirectToAction("Message", new { s = "User was blocked" });
+                else return RedirectToAction("Message", new { s = "User was unblocked" });
             }
+        }
+
+        public IActionResult Purchases()
+        {
+            if (Request.Cookies["Id"] == null)
+                return LocalRedirect("~/User/Login");
+            int Id = Convert.ToInt32(Request.Cookies["Id"]);
+            List<PurchaseView> purchaseView = new List<PurchaseView>();
+            IEnumerable<Purchase> purchases = db.Purchases.Where(u => u.BuyerId == Id);
+            foreach(var p in purchases)
+            {
+                Book book = db.Books.FirstOrDefault(u => u.Id == p.ProductId);
+                if (book == null) continue;
+                User seller = db.Users.FirstOrDefault(u => u.Id == book.SellerId);
+                PurchaseView pv = new PurchaseView { BookId = book.Id, SellerId = seller.Id, SellerName = seller.Name, BookName = book.Title, Date = p.Date, Price = book.Price, Id = p.Id };
+                purchaseView.Add(pv);
+            }
+            ViewBag.purchases = purchaseView;
+            return View();
+        }
+
+        public IActionResult Buy(int Id)
+        {
+            if (Request.Cookies["Id"] == null)
+                return LocalRedirect("~/User/Login");
+            int UserId = Convert.ToInt32(Request.Cookies["Id"]);
+            DateTime curDate = DateTime.Now;
+
+            Purchase p = new Purchase { BuyerId = UserId, ProductId = Id, Date = curDate };
+            db.Purchases.Add(p);
+            db.SaveChanges();
+            return LocalRedirect("~/User/Purchases");
         }
     }
 

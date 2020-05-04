@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
 
 </head>
-<body>
+<body onload="f()">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -18,34 +18,37 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse w-50">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        <li class="nav-item Buyer bar" id="purchases">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Purchases">Purchases</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item Seller bar" id="books">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="MyBooks">My Books</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item Seller bar" id="post">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="PostBook">Post Books</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item Admin bar" id="users">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Users">Users</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Log In</a>
+                        <li class="nav-item Guest bar">
+                            <a id="login" class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Log In</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
+                        <li class="nav-item Guest bar">
+                            <a id="register" class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>
+                        
+                        <li class="nav-item Buyer Seller Admin bar">
+                              <a id="logout" class="nav-link text-dark " asp-area="" asp-controller="User" asp-action="Me">My Profile</a>
                         </li>
-
+                        <li class="nav-item Buyer Seller Admin bar">
+                            <a id="logout" class="nav-link text-dark " asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -61,12 +64,50 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - BookStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - BookStore - Kristin <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        function getCookie(name) {
+
+            var cookieArr = document.cookie.split(";");
+    
+
+            for(var i = 0; i < cookieArr.length; i++) {
+                var cookiePair = cookieArr[i].split("=");
+        
+
+                if(name == cookiePair[0].trim()) {
+
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+   
+            return null;
+        }
+        function f() {
+            let role = getCookie("Role");
+            var all = document.getElementsByClassName("bar");
+            for (var i = 0; i < all.length; i++) {
+                all[i].style.display = "none";
+            }
+            var show;
+            if (role == null) {
+                show = document.getElementsByClassName("Guest");
+            }
+            else {
+                show = document.getElementsByClassName(role);
+            }
+            for (var i = 0; i < show.length; i++) {
+                show[i].style.display = "block";
+            }
+        }
+
+       
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

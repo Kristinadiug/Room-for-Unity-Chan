@@ -1,42 +1,56 @@
-﻿@model IEnumerable<BookStore.Data.Models.Book>
+﻿@using BookStore.Models
+@model IndexViewModel
 @{
     ViewData["Title"] = "All Books";
 }
+@addTagHelper *, BookStore
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <h1>All Books</h1>
-<div class="list-group-horizontal m-1">
-    <p>Sort by</p>
-    <i class="fa fa-fw fa-sort"></i><a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Title)</a>
-    <i class="fa fa-fw fa-sort"></i><a asp-action="Index" asp-route-sortOrder="@ViewData["AuthorSortParm"]">@Html.DisplayNameFor(model => model.Author)</a>
-    <i class="fa fa-fw fa-sort"></i><a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]">@Html.DisplayNameFor(model => model.Price)</a>
-
-    
-</div>
-
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-outline-info btn-sm" /> |
-            <a asp-action="Index">Back to Full List</a>
-        </p>
+<div class="flex">
+    <div class = "collapse d-sm-inline-flex flex-sm-row">
+        Sort by
+        <a class="ml-2" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Title</a>
+        <a class="ml-2" asp-action="Index" asp-route-sortOrder="@ViewData["AuthorSortParm"]">Author</a>
+        <a class="ml-2" asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]">Price</a>
     </div>
-</form>
+
+ 
+    <div class = "collapse d-sm-inline-flex flex-sm-row float-right">
+        <form asp-action="Index" method="get">
+            Find by name: <input  type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-outline-info btn-sm ml-2" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </form>
+    </div>
+</div>
 
 <div class="row mt-5 mb-2">
     @{
-        foreach (var b in Model)
+        foreach (var b in Model.Books)
         {
-            <div class="col-lg-4">
-                <img src=@b.ImageUrl width="150" height="200" style="align-self:center" class="m-5">
-                <h3>@b.Title</h3>
-                <h4>@b.Author</h4>
-                <div style="height: 150px">
-                    <p>@b.Description</p>
-                </div>
-                <p>Price: @b.Price.ToString("c")</p>
-                <p><a class="btn btn-secondary" href="#">Buy</a></p>
+        
+        <div class="col-lg-4">
+            <img src=@b.ImageUrl width="150" height="200" style="align-self:center" class="m-5">
+            <h3>@b.Title</h3>
+            <h4>@b.Author</h4>
+            <div style="height: 150px">
+                <p>@b.Description</p>
             </div>
+            <p>Price: @b.Price.ToString("c")</p>
+            <p><a class="btn btn-secondary" asp-controller="User" asp-action="Buy" asp-route-id="@b.Id">Buy</a></p>
+            <p><a class="btn btn-primary" asp-controller="Book" asp-action="Details" asp-route-id="@b.Id">Details</a></p>
+        </div>
+
         }
     }
 </div>
+<form asp-controller="Home" asp-action="Index">
+    <select name="sz">
+        <option value=3>Books per page</option>
+        <option value=3>3</option>
+        <option value=9>9</option>
+        <option value=12>12</option>
+    </select>
+    <input type="submit" value="Ok" class="btn btn-primary" />
+</form>
+<page-link page-model="Model.PageViewModel" page-action="Index"></page-link>

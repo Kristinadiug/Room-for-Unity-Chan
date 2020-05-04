@@ -16,12 +16,13 @@ namespace BookStore.Controllers
         private readonly ILogger<HomeController> _logger;
         private BookContext _context = new BookContext();
 
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString,  int sz=3, int page=1)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["AuthorSortParm"] = sortOrder == "Author" ? "author_desc" : "Author";
@@ -29,7 +30,8 @@ namespace BookStore.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var books = from s in _context.Books
-                           select s;
+                           select s;   
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 books = books.Where(s => s.Title.Contains(searchString)
@@ -44,7 +46,7 @@ namespace BookStore.Controllers
                 case "Author":
                     books = books.OrderBy(s => s.Author);
                     break;
-                case "date_desc":
+                case "author_desc":
                     books = books.OrderByDescending(s => s.Author);
                     break;
                 case "Price":
@@ -57,7 +59,16 @@ namespace BookStore.Controllers
                     books = books.OrderBy(s => s.Title);
                     break;
             }
-            return View(await books.AsNoTracking().ToListAsync());
+            var count = await books.CountAsync();
+            var items = await books.Skip((page - 1) * sz).Take(sz).ToListAsync();
+            PageViewModel pageViewModel = new PageViewModel(count, page, sz);
+            IndexViewModel viewModel = new IndexViewModel
+            {
+                PageViewModel = pageViewModel,
+                Books = items,
+                pageSize = sz
+            };
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

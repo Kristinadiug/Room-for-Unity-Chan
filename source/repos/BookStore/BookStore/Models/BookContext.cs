@@ -12,6 +12,7 @@ namespace BookStore.Models
         public DbSet<Book> Books { set; get; }
         public DbSet<Purchase> Purchases { set; get; }
         public DbSet<User> Users { set; get; }
+        public DbSet<Review> Reviews { set; get; }
     }
 
     

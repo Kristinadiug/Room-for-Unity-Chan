@@ -135,7 +135,6 @@ C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Book
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.imageurl.resources
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.price.resources
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Login.cshtml.g.cs
-C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Home\AllBooks.cshtml.g.cs
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.bookproduct.resources
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.user.resources
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.fkp.resources
@@ -151,3 +150,8 @@ C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razo
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Sure.cshtml.g.cs
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.userblock.resources
 C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Block.cshtml.g.cs
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Purchases.cshtml.g.cs
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.puchase.resources
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\User\Profile.cshtml.g.cs
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Book\Details.cshtml.g.cs
+C:\Users\christina\source\repos\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Migrations.comments.resources

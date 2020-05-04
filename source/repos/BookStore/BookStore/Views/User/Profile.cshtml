@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = ViewBag.user.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Profile</h1>
+<div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th><p>Name</p></th>
+                <td><p>@ViewBag.user.Name</p></td>
+
+            </tr>
+            <tr>
+                <th><p>Age</p></th>
+                <td><p>@ViewBag.user.Age</p></td>
+            </tr>
+            <tr>
+                <th><p>Email</p></th>
+                <td><p>@ViewBag.user.Email</p></td>
+            </tr>
+            <tr>
+                <th><p>Role</p></th>
+                <td><p>@ViewBag.user.Role</p></td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = ViewBag.book.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container collapse d-sm-inline-flex flex-sm-row">
+        <div class="m-4">
+            <img class="flex" src=@ViewBag.book.ImageUrl width="150" height="200" style="align-self:center" class="m-5">
+        </div>
+        <div >
+            <h1>@ViewBag.book.Title</h1>
+            <h2>@ViewBag.book.Author</h2>
+            <p>Seller: </p>
+            <p>Price: @ViewBag.book.Price</p>
+            <p>Description: @ViewBag.book.Description</p>
+        </div>
+    </div>
+

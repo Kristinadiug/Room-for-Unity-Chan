@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "Purchases";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Purchases</h2>
+<div>
+    <table class="table">
+        <tr>
+
+            <td><p>Id</p></td>
+            <td><p>Book Title</p></td>
+            <td><p>Seller</p></td>
+            <td><p>Price</p></td>
+            <td><p>Date</p></td>
+            <td><p>Delete</p></td>
+
+        </tr>
+        @foreach (var b in ViewBag.purchases)
+        {
+    <tr>
+        <td><p>@b.Id</p></td>
+        <td><p>@b.BookName</p></td>
+        <td><p>@b.SellerName</p></td>
+        <td><p>@b.Price</p></td>
+        <td><p>@b.Date</p></td>
+        <td><a asp-controller="User" asp-action="Delete" asp-route-id="@b.Id">Delete</a></td>
+
+    </tr>
+        }
+    </table>
+</div>
