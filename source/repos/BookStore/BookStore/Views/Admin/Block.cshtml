@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewData["Title"] = "Block";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Are you sure?</h1>
+@{
+    <a class="btn btn-danger" asp-controller="Admin" asp-action="BlockSure" asp-route-id="@ViewBag.Id">Yes</a>
+    <a class="btn btn-success" asp-controller="Admin" asp-action="Users">No</a>
+}
+
+
+

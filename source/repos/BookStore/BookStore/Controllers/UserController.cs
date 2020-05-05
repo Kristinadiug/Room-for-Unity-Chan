@@ -16,13 +16,12 @@ namespace BookStore.Controllers
     public class UserController : Controller
     {
         BookContext db = new BookContext();
-     
+
         public ActionResult Message(string s)
         {
             ViewBag.message = s;
             return View();
         }
-
         [HttpGet]
         public ActionResult Register()
         {
@@ -38,12 +37,7 @@ namespace BookStore.Controllers
             return RedirectToAction("Message", new { s = "Welcome!" });
 
         }
-        
-        public ActionResult Users()
-        {
-            ViewBag.Users = db.Users;
-            return View();
-        }
+
 
         [HttpGet]
         public ActionResult Login()
@@ -115,6 +109,18 @@ namespace BookStore.Controllers
                 return RedirectToAction("Message", new { s = "Not found" });
             }
             ViewBag.user = user;
+            ViewBag.books = null;
+            if(user.Role == "Seller")
+            {
+                ViewBag.books = db.Books.Where(u => u.SellerId == Id);
+            }
+            ViewBag.allow = false;
+            if (Request.Cookies["Id"] != null)
+            {
+                int curId = Convert.ToInt32(Request.Cookies["Id"]);
+                if (Id == curId) ViewBag.allow = true;
+            }
+          
             return View();
         }
 
@@ -126,203 +132,28 @@ namespace BookStore.Controllers
             }
             int Id = Convert.ToInt32(Request.Cookies["Id"]);
             return RedirectToAction("Profile", new { Id = Id });
-        }
+        }      
 
         [HttpGet]
-        public ActionResult PostBook()
+        public IActionResult Edit(int Id)
         {
-            if(Request.Cookies["Id"] == null)
+            int curId = Convert.ToInt32(Request.Cookies["Id"]);
+            if(Id != curId)
             {
-                return LocalRedirect("~/User/Login");
+                return RedirectToAction("Message", new { s = "Not allowed" });
             }
-            int Id = Convert.ToInt32(Request.Cookies["Id"]);
             User user = db.Users.FirstOrDefault(u => u.Id == Id);
-            if(user == null || user.Role != "Seller")
-            {
-                return RedirectToAction("Message", new { s = "You are not a seller" });
-            }
-            else
-            {
-                return View();
-            }
-            
+            return View(user);
         }
         [HttpPost]
-        public IActionResult PostBook(Book book)
+        public IActionResult Edit(User form)
         {
-            string res = "Book was added ";
-
-            if (book.ImageData != null)
-            {
-                byte[] imageData = null;
-
-                using (var binaryReader = new BinaryReader(book.ImageData.OpenReadStream()))
-                {
-                    imageData = binaryReader.ReadBytes((int)book.ImageData.Length);
-                }
-                book.ImageUrl = "data:image;base64," + Convert.ToBase64String(imageData);
-                res += "with image";
-            }
-            string CurUserId = Request.Cookies["Id"];
-            book.SellerId = Convert.ToInt32(CurUserId);
-
-            db.Books.Add(book);
+            User user = db.Users.FirstOrDefault(u => u.Id == form.Id);
+            user.Name = form.Name;
+            user.Age = form.Age;
+            user.Email = form.Email;
             db.SaveChanges();
-            return RedirectToAction("Message", new { s = "Book was added" });
-        }
-
-        [HttpGet]
-        public ActionResult MyBooks()
-        {
-            if (Request.Cookies["Id"] == null)
-            {
-                return LocalRedirect("~/User/Login");
-            }
-            int Id = Convert.ToInt32(Request.Cookies["Id"]);
-            User user = db.Users.FirstOrDefault(u => u.Id == Id);
-            if (user == null || user.Role != "Seller")
-            {
-                return RedirectToAction("Message", new { s = "You are not a seller" });
-            }
-            IEnumerable<Book> books = db.Books.Where(u => u.SellerId == Id); ;
-            ViewBag.Books = books;
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult Edit(int Id)
-        {
-            if (Request.Cookies["Id"] == null)
-            {
-                return LocalRedirect("~/User/Login");
-            }
-            int userId = Convert.ToInt32(Request.Cookies["Id"]);
-            User user = db.Users.FirstOrDefault(u => u.Id == userId);
-            if (user == null || user.Role != "Seller")
-            {
-                return RedirectToAction("Message", new { s = "You are not a seller" });
-            }
-            if (Request.Cookies["Id"] == null)
-                return LocalRedirect("~/User/Login");
-          
-            var book = db.Books.FirstOrDefault(u => u.Id == Id);
-            
-            if(book == null)
-            {
-                return RedirectToAction("Message", new { s = "Not found" });
-            }
-            else
-            {
-                if(book.SellerId != userId)
-                {
-                    return RedirectToAction("Message", new { s = "You have no rights for this book" });
-                }
-                ViewBag.Model = book;
-                return View();
-            }
-            
-        }
-
-        [HttpPost]
-        public ActionResult Edit(Book book)
-        {
-            int Id = book.Id;
-            Book oldData = db.Books.FirstOrDefault(u => u.Id == Id);
-            book.SellerId = oldData.SellerId;
-            book.ImageUrl = oldData.ImageUrl;
-            if (book.ImageData != null)
-            {
-                byte[] imageData = null;
-
-                using (var binaryReader = new BinaryReader(book.ImageData.OpenReadStream()))
-                {
-                    imageData = binaryReader.ReadBytes((int)book.ImageData.Length);
-                }
-                book.ImageUrl = "data:image;base64," + Convert.ToBase64String(imageData);
-            }
-            db.Entry(oldData).State = System.Data.Entity.EntityState.Deleted;
-            db.Entry(book).State = System.Data.Entity.EntityState.Added;
-            db.SaveChanges();
-            return RedirectToAction("MyBooks");
-                     
-        }
-        [HttpGet]
-        public IActionResult Delete(int Id)
-        {
-            ViewBag.Id = Id;
-            return View();
-        }
-       
-        public IActionResult DeleteSure(int Id)
-        {
-            Book book = null;
-            book = db.Books.FirstOrDefault(u => u.Id == Id);
-            if(book == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                db.Entry(book).State = System.Data.Entity.EntityState.Deleted;
-                db.SaveChanges();
-                return RedirectToAction("MyBooks");
-            }
-        }
-
-        [HttpGet]
-        public IActionResult Block(int Id)
-        {
-            ViewBag.Id = Id;
-            return View();
-        }
-
-        public IActionResult BlockSure(int Id)
-        {
-            User user = null;
-            user = db.Users.FirstOrDefault(u => u.Id == Id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                user.Blocked = !user.Blocked;
-                db.SaveChanges();
-                if(user.Blocked) return RedirectToAction("Message", new { s = "User was blocked" });
-                else return RedirectToAction("Message", new { s = "User was unblocked" });
-            }
-        }
-
-        public IActionResult Purchases()
-        {
-            if (Request.Cookies["Id"] == null)
-                return LocalRedirect("~/User/Login");
-            int Id = Convert.ToInt32(Request.Cookies["Id"]);
-            List<PurchaseView> purchaseView = new List<PurchaseView>();
-            IEnumerable<Purchase> purchases = db.Purchases.Where(u => u.BuyerId == Id);
-            foreach(var p in purchases)
-            {
-                Book book = db.Books.FirstOrDefault(u => u.Id == p.ProductId);
-                if (book == null) continue;
-                User seller = db.Users.FirstOrDefault(u => u.Id == book.SellerId);
-                PurchaseView pv = new PurchaseView { BookId = book.Id, SellerId = seller.Id, SellerName = seller.Name, BookName = book.Title, Date = p.Date, Price = book.Price, Id = p.Id };
-                purchaseView.Add(pv);
-            }
-            ViewBag.purchases = purchaseView;
-            return View();
-        }
-
-        public IActionResult Buy(int Id)
-        {
-            if (Request.Cookies["Id"] == null)
-                return LocalRedirect("~/User/Login");
-            int UserId = Convert.ToInt32(Request.Cookies["Id"]);
-            DateTime curDate = DateTime.Now;
-
-            Purchase p = new Purchase { BuyerId = UserId, ProductId = Id, Date = curDate };
-            db.Purchases.Add(p);
-            db.SaveChanges();
-            return LocalRedirect("~/User/Purchases");
+            return RedirectToAction("Profile", new { Id = user.Id });
         }
     }
 

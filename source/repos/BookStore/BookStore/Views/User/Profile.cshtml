@@ -26,6 +26,44 @@
                 <td><p>@ViewBag.user.Role</p></td>
 
             </tr>
+            @if(ViewBag.allow)
+            { 
+                <tr>
+                    <th></th>
+                    <td><a asp-controller="User" asp-action="Edit" asp-route-Id=@ViewBag.user.Id> Edit</a></td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
+@if (ViewBag.books != null)
+{
+    <div>
+        <h3>Books</h3>
+        <table class="table">
+            <tr>
+
+                <td><p>Title</p></td>
+                <td><p>Author</p></td>
+                <td><p>Price</p></td>
+                <td><p>Quantity</p></td>
+                <td><p>Description</p></td>
+                <td><p>Image</p></td>
+
+
+            </tr>
+            @foreach (var b in ViewBag.Books)
+            {
+                <tr>
+                    <td><p> <a target="_blank" asp-controller="Book" asp-action="Details" asp-route-Id=@b.Id>@b.Title</a></p></td>
+                    <td><p>@b.Author</p></td>
+                    <td><p>@b.Price</p></td>
+                    <td><p>@b.Availability</p></td>
+                    <td><p>@b.Description</p></td>
+                    <td><p><img src=@b.ImageUrl width="100" height="100"></p></td>
+
+                </tr>
+            }
+        </table>
+    </div>
+}

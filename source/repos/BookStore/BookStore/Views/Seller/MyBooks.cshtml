@@ -15,7 +15,7 @@
         <h3>All Books</h3>
         <table class="table">
             <tr>
-               
+
                 <td><p>Title</p></td>
                 <td><p>Author</p></td>
                 <td><p>Price</p></td>
@@ -28,15 +28,15 @@
             </tr>
             @foreach (var b in ViewBag.Books)
             {
-                <tr>                  
+                <tr>
                     <td><p>@b.Title</p></td>
                     <td><p>@b.Author</p></td>
                     <td><p>@b.Price</p></td>
                     <td><p>@b.Availability</p></td>
                     <td><p>@b.Description</p></td>
                     <td><p><img src=@b.ImageUrl width="100" height="100"></p></td>
-                    <td><a asp-controller="User" asp-action="Edit" asp-route-id="@b.Id">Edit</a></td>
-                    <td><a asp-controller="User" asp-action="Delete" asp-route-id="@b.Id">Delete</a></td>
+                    <td><a asp-controller="Seller" asp-action="Edit" asp-route-id="@b.Id">Edit</a></td>
+                    <td><a asp-controller="Seller" asp-action="Delete" asp-route-id="@b.Id">Delete</a></td>
 
                 </tr>
             }

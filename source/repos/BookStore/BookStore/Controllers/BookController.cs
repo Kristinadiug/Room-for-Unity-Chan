@@ -15,12 +15,15 @@ namespace BookStore.Controllers
         {
             return View();
         }
-        
-        public IActionResult Details(int Id)
+
+        public async Task<IActionResult> Details(int Id)
         {
             Book book = db.Books.FirstOrDefault(u => u.Id == Id);
             IEnumerable<Review> reviews = db.Reviews.Where(u => u.BookId == Id);
+            User seller = db.Users.FirstOrDefault(u => u.Id == book.SellerId);
+
             reviews.ToList();
+            reviews.Reverse();
             
             double sum = 0;
             foreach(var r in reviews)
@@ -30,10 +33,29 @@ namespace BookStore.Controllers
 
             ViewBag.book = book;
             ViewBag.reviews = reviews;
+            ViewBag.seller = seller.Name;
             ViewBag.rate = 0;
-            if (reviews.Count() != 0) ViewBag.rate = sum / reviews.Count();
+            ViewBag.role = Request.Cookies["Role"];
+            if (reviews.Count() != 0) ViewBag.rate = Math.Round(sum / reviews.Count(), 2);
 
             return View();
+        }
+        [HttpPost]
+        [Route("Book/PostReview")]
+        public IActionResult PostReview(ReviewForm form, int bookId)
+        {
+            Review review = new Review();
+            int id = Convert.ToInt32(Request.Cookies["Id"]);
+            review.UserId = id;
+            User user = db.Users.FirstOrDefault(u => u.Id == id);
+            review.UserName = user.Name;
+            review.Comment = form.Comment;
+            review.Rating = form.Rating;
+            review.BookId = bookId;
+
+            db.Reviews.Add(review);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { Id = bookId });
         }
     }
 }

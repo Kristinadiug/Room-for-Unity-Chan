@@ -1,19 +1,157 @@
-﻿
+﻿@model BookStore.Models.ReviewForm
+
 @{
     ViewData["Title"] = ViewBag.book.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    p {
+        font-size: 20px;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .rate {
+        float: left;
+        height: 46px;
+        padding: 0 10px;
+    }
+
+        .rate:not(:checked) > input {
+            position: absolute;
+            top: -9999px;
+        }
+
+        .rate:not(:checked) > label {
+            float: right;
+            width: 1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 30px;
+            color: #ccc;
+        }
+
+            .rate:not(:checked) > label:before {
+                content: '★ ';
+            }
+
+        .rate > input:checked ~ label {
+            color: #ffc700;
+        }
+
+        .rate:not(:checked) > label:hover,
+        .rate:not(:checked) > label:hover ~ label {
+            color: #deb217;
+        }
+
+        .rate > input:checked + label:hover,
+        .rate > input:checked + label:hover ~ label,
+        .rate > input:checked ~ label:hover,
+        .rate > input:checked ~ label:hover ~ label,
+        .rate > label:hover ~ input:checked ~ label {
+            color: #c59b08;
+        }
+
+    .show {
+        float: left;
+        height: 46px;
+        padding: 0 10px;
+    }
+
+        .show label:before {
+            content: '★ ';
+        }
+</style>
+<body onload="add()">
+    <h1>Details</h1>
+
     <div class="container collapse d-sm-inline-flex flex-sm-row">
         <div class="m-4">
-            <img class="flex" src=@ViewBag.book.ImageUrl width="150" height="200" style="align-self:center" class="m-5">
+            <img class="flex" src=@ViewBag.book.ImageUrl width="150" height="200" style="align-self: center" class="m-5">
         </div>
-        <div >
+        <div>
             <h1>@ViewBag.book.Title</h1>
             <h2>@ViewBag.book.Author</h2>
-            <p>Seller: </p>
-            <p>Price: @ViewBag.book.Price</p>
+            <p>Seller: <a asp-controller="User" asp-action="Profile" asp-route-Id=@ViewBag.book.SellerId> @ViewBag.seller</a></p>
+            <p>Rating: @ViewBag.Rate</p>
+            <p>Price: @ViewBag.book.Price.ToString("c")</p>
             <p>Description: @ViewBag.book.Description</p>
         </div>
     </div>
+    @if (ViewBag.role == "Buyer")
+    {
+        <div id="add">
+            <h4>Post Review</h4>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="PostReview" asp-route-bookId=@ViewBag.book.Id method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <div class="rate">
+                                <p class="rate mt-2 ml-0">Rating</p>
+                                <input asp-for="Rating" type="radio" id="star5" value=5 />
+                                <label for="star5" title="text">5 stars</label>
+                                <input asp-for="Rating" type="radio" id="star4" value=4 />
+                                <label for="star4" title="text">4 stars</label>
+                                <input asp-for="Rating" type="radio" id="star3" value=3 />
+                                <label for="star3" title="text">3 stars</label>
+                                <input asp-for="Rating" type="radio" id="star2" value=2 />
+                                <label for="star2" title="text">2 stars</label>
+                                <input asp-for="Rating" type="radio" id="star1" value=1 />
+                                <label for="star1" title="text">1 star</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p class="rate mt-2 ml-0">Comment</p>
+                            <input asp-for="Comment" class="form-control" />
+                            <span asp-validation-for="Comment" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+    <div>
+        <h4>Reviews</h4>
+        @foreach (var r in ViewBag.reviews)
+        {
+            <div>
+                <div>
+                    <p><a asp-controller="User" asp-action="Profile" asp-route-Id=@r.UserId> @r.UserName</a></p>
+                </div>
+                <div class="show">
+                    @for (int i = 0; i < r.Rating; i++)
+                    {
+                        <label for="star5" title="text" style="color: #c59b08;"></label>
+                    }
+                    @for (int i = 0; i < 5 - r.Rating; i++)
+                    {
+                        <label for="star5" title="text" style="color: #ccc;"></label>
+                    }
+                </div>
+                <div class="w-100">
+                    <p>@r.Comment</p>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+
+<script>
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 

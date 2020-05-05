@@ -37,8 +37,10 @@
                 <p>@b.Description</p>
             </div>
             <p>Price: @b.Price.ToString("c")</p>
-            <p><a class="btn btn-secondary" asp-controller="User" asp-action="Buy" asp-route-id="@b.Id">Buy</a></p>
-            <p><a class="btn btn-primary" asp-controller="Book" asp-action="Details" asp-route-id="@b.Id">Details</a></p>
+            <div class="list-group-horizontal collapse d-sm-inline-flex flex-sm-row">
+                <p><a class="btn btn-secondary m-1" asp-controller="Buyer" asp-action="Buy" asp-route-id="@b.Id">Buy</a></p>
+                <p><a class="btn btn-primary m-1" asp-controller="Book" asp-action="Details" asp-route-id="@b.Id">Details</a></p>
+            </div>
         </div>
 
         }

@@ -13,10 +13,13 @@ namespace BookStore.Models
         public int UserId { set; get; }
         public int BookId { set; get; }
         public string UserName { set; get; }
-        [Required]
         public int Rating { set; get; }
-        [Required]
-        [Remote("CheckDescription", "Validation")]
         public string Comment { set; get; }
+    }
+    public class ReviewForm
+    {
+        public int Rating { set; get; }
+        public string Comment { set; get; }
+        public int BookId { set; get; }
     }
 }

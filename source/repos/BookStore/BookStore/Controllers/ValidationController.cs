@@ -112,7 +112,8 @@ namespace BookStore.Controllers
             {
                 user = context.Users.FirstOrDefault(u => u.Name == Name);
             }
-            return (user == null);
+            int curId = Convert.ToInt32(Request.Cookies["Id"]);
+            return (user == null || user.Id == curId);
         }
 
         public IActionResult CheckUsername(string Name)

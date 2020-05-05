@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "Users";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>All Users</title>
+</head>
+<body>
+    <div>
+        <h3>All Users</h3>
+        <table class="table">
+            <tr>
+
+                <td><p>Id</p></td>
+                <td><p>Name</p></td>
+                <td><p>Age</p></td>
+                <td><p>Email</p></td>
+                <td><p>Role</p></td>
+                <td><p>Block</p></td>
+
+            </tr>
+            @foreach (var b in ViewBag.Users)
+            {
+                <tr>
+                    <td><p>@b.Id</p></td>
+                    <td><p>@b.Name</p></td>
+                    <td><p>@b.Age</p></td>
+                    <td><p>@b.Email</p></td>
+                    <td><p>@b.Role</p></td>
+                    @if (@b.Blocked)
+                    {
+                        <td><a asp-controller="Admin" asp-action="Block" asp-route-id="@b.Id">Unlock</a></td>
+                    }
+                    else
+                    {
+                        <td><a asp-controller="Admin" asp-action="Block" asp-route-id="@b.Id">Block</a></td>
+                    }
+
+                </tr>
+            }
+        </table>
+    </div>
+
+</body>
+</html>
+

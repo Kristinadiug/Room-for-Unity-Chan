@@ -16,8 +16,7 @@ namespace BookStore.Data.Models
         [Required]
         [Range(0,10000000, ErrorMessage ="Price must be non-negative")]
         public int Price { get; set; }
-        public IFormFile ImageData { get; set; }
-        public string ImageUrl { get; set; }
+
         [Required]
         [Remote("CheckDescription", "Validation")]
         public string Description { get; set; }
